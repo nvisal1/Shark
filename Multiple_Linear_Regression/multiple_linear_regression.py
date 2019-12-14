@@ -10,12 +10,16 @@ dataset = pd.read_csv('50_Startups.csv')
 X = dataset.iloc[:, :-1].values
 y = dataset.iloc[:, 4].values
 
+print(X)
+
 # Encoding categorical data
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import make_column_transformer
 
 onehotencoder = make_column_transformer((StandardScaler(), [0, 1, 2]), (OneHotEncoder(), [3]))
 X = onehotencoder.fit_transform(X)
+
+print(X)
 
 # Avoiding the Dummy Variable Trap
 X = X[:, :-1]
@@ -28,9 +32,6 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 from sklearn.linear_model import LinearRegression
 regressor = LinearRegression()
 regressor.fit(X_train, y_train)
-
-# Predicting the Test set results
-y_pred = regressor.predict(X_test)
 
 # Building the optimal model using Backward Elimination
 import statsmodels.api as sm
@@ -49,4 +50,23 @@ def backwardsElimination(data, significance_level):
 significance_level = 0.05
 X = np.append(arr = np.ones((50, 1)).astype(int), values = X, axis = 1)
 data = X[:, [0, 1, 2, 3, 4, 5]]
-model = backwardsElimination(data, significance_level)
+model_data = backwardsElimination(data, significance_level)
+
+
+
+# fit the model again 
+model = sm.OLS(y, model_data).fit()
+
+X = dataset.iloc[:, :-1].values
+X[1,0] = 165349
+onehotencoder = make_column_transformer((StandardScaler(), [0, 1, 2]), (OneHotEncoder(), [3]))
+X = onehotencoder.fit_transform(X)
+
+print(X[1,0])
+
+# model input is R & D Spend
+
+# Predicting the Test set results
+y_pred = model.predict([[1, X[1,0]]])
+
+print(y_pred)
