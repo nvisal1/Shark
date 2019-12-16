@@ -25,19 +25,7 @@ def main(dataset_path):
     # fit the model using significant variables
     model = sm.OLS(Y, significant_variables).fit()
 
-    saveModelToFile(model, path = '../REST-API/model.sav')
-
-    # dataset = pd.read_csv(dataset_path)
-    # new = dataset.iloc[:, :-1].values
-    # new[1,0] = 165349
-    # onehotencoder = make_column_transformer((StandardScaler(), [0, 1, 2]), (OneHotEncoder(), [3]))
-    # new = onehotencoder.fit_transform(new)
-
-    # # model input is R & D Spend
-    # # Predicting the Test set results
-    # y_pred = model.predict([[1, new[1,0]]])
-
-    # print(y_pred)
+    saveModelToFile(model, path = './model.sav')
 
 def getXAndYValues(dataset):
     X = dataset.iloc[:, :-1].values
