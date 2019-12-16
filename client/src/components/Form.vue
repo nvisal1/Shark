@@ -6,10 +6,12 @@
         :placeholderText='data.placeholderText'
       ></FormInput>
     </div>
+    <FormButton buttonText='Predict'></FormButton>
   </div>
 </template>
 
 <script>
+  import FormButton from './Form-Button';
   import FormInput from './Form-Input';
   import FormTitle from './Form-Title';
 
@@ -31,11 +33,9 @@
   export default {
     name: 'Form',
     components: {
+      FormButton,
       FormInput,
       FormTitle,
-    },
-    props: {
-      msg: String
     },
     data: function() {
       return { inputData }
